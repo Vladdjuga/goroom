@@ -39,6 +39,9 @@
     <!-- Input Area -->
     <div class="chat-input-area">
         <div class="input-wrapper">
+            <button class="emoji-btn" onclick="toggleEmojiPicker()" id="emojiBtn" disabled title="Add emoji">
+                😊
+            </button>
             <input 
                 type="text" 
                 id="messageInput" 
@@ -49,6 +52,11 @@
             <button class="send-btn" onclick="sendMessage()" id="sendBtn" disabled>
                 <span class="send-icon">📤</span>
             </button>
+        </div>
+        
+        <!-- Emoji Picker Container -->
+        <div class="emoji-picker-container" id="emojiPickerContainer" style="display: none;">
+            <emoji-picker></emoji-picker>
         </div>
         
         <div class="action-buttons">
@@ -65,6 +73,10 @@
     </div>
 </div>
 
+<!-- Emoji Picker Library (from CDN) -->
+<script type="module">
+    import { Picker } from 'https://cdn.jsdelivr.net/npm/emoji-picker-element@^1/index.js';
+</script>
 <script src="/static/js/chat.js"></script>
 </body>
 </html>

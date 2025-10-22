@@ -7,6 +7,7 @@ const maxReconnectAttempts = 5;
 // Initialize on page load
 document.addEventListener('DOMContentLoaded', () => {
     setupEventListeners();
+    setupEmojiPicker();
     connect();
 });
 
@@ -19,6 +20,56 @@ function setupEventListeners() {
                 sendMessage();
             }
         });
+    }
+    
+    // Close emoji picker when clicking outside
+    document.addEventListener('click', (e) => {
+        const emojiContainer = document.getElementById('emojiPickerContainer');
+        const emojiBtn = document.getElementById('emojiBtn');
+        
+        if (emojiContainer && emojiBtn && 
+            !emojiContainer.contains(e.target) && 
+            e.target !== emojiBtn) {
+            emojiContainer.style.display = 'none';
+        }
+    });
+}
+
+// Setup Emoji Picker
+function setupEmojiPicker() {
+    const picker = document.querySelector('emoji-picker');
+    if (picker) {
+        picker.addEventListener('emoji-click', (event) => {
+            const input = document.getElementById('messageInput');
+            if (input && !input.disabled) {
+                const emoji = event.detail.unicode;
+                const cursorPos = input.selectionStart;
+                const textBefore = input.value.substring(0, cursorPos);
+                const textAfter = input.value.substring(input.selectionEnd);
+                
+                input.value = textBefore + emoji + textAfter;
+                
+                // Move cursor after emoji
+                const newCursorPos = cursorPos + emoji.length;
+                input.setSelectionRange(newCursorPos, newCursorPos);
+                input.focus();
+                
+                // Close picker after selection
+                const emojiContainer = document.getElementById('emojiPickerContainer');
+                if (emojiContainer) {
+                    emojiContainer.style.display = 'none';
+                }
+            }
+        });
+    }
+}
+
+// Toggle emoji picker
+function toggleEmojiPicker() {
+    const emojiContainer = document.getElementById('emojiPickerContainer');
+    if (emojiContainer) {
+        const isVisible = emojiContainer.style.display !== 'none';
+        emojiContainer.style.display = isVisible ? 'none' : 'block';
     }
 }
 
@@ -284,17 +335,21 @@ function showSystemMessage(text) {
 function enableChatInput() {
     const input = document.getElementById('messageInput');
     const sendBtn = document.getElementById('sendBtn');
+    const emojiBtn = document.getElementById('emojiBtn');
     
     if (input) {
         input.disabled = false;
         input.placeholder = 'Type your message...';
     }
     if (sendBtn) sendBtn.disabled = false;
+    if (emojiBtn) emojiBtn.disabled = false;
 }
 
 function disableChatInput() {
     const input = document.getElementById('messageInput');
     const sendBtn = document.getElementById('sendBtn');
+    const emojiBtn = document.getElementById('emojiBtn');
+    const emojiContainer = document.getElementById('emojiPickerContainer');
     
     if (input) {
         input.disabled = true;
@@ -302,6 +357,8 @@ function disableChatInput() {
         input.value = '';
     }
     if (sendBtn) sendBtn.disabled = true;
+    if (emojiBtn) emojiBtn.disabled = true;
+    if (emojiContainer) emojiContainer.style.display = 'none';
 }
 
 function setButtonStates(states) {
