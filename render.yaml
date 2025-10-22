@@ -1,0 +1,15 @@
+services:
+  # Web Service для Go приложения
+  - type: web
+    name: goroom-chat
+    env: go
+    region: oregon  # Или frankfurt для Europe
+    plan: free
+    buildCommand: go build -o chat-service
+    startCommand: ./chat-service
+    envVars:
+      - key: PORT
+        value: 8080
+      - key: GIN_MODE
+        value: release
+    healthCheckPath: /

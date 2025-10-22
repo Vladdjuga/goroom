@@ -371,4 +371,72 @@ MIT License - feel free to use this for learning or building your own chat servi
 
 ---
 
+## 🚀 Deployment
+
+### Deploy to Render.com (Free)
+
+This project is ready to deploy to [Render.com](https://render.com) with zero configuration!
+
+**Steps:**
+
+1. **Push to GitHub:**
+   ```bash
+   git add .
+   git commit -m "Ready for deployment"
+   git push origin main
+   ```
+
+2. **Create Render Account:**
+   - Go to https://render.com
+   - Sign up with GitHub
+
+3. **Deploy:**
+   - Click "New +" → "Web Service"
+   - Connect your GitHub repository
+   - Render will auto-detect `render.yaml`
+   - Click "Create Web Service"
+   - Wait 2-3 minutes for build ☕
+
+4. **Done!** 🎉
+   - Your app will be live at: `https://your-app-name.onrender.com`
+   - WebSocket will work at: `wss://your-app-name.onrender.com/ws`
+
+**Note:** Free tier sleeps after 15 minutes of inactivity. First request after sleep takes ~30 seconds.
+
+### Deploy to Railway.app
+
+Alternative option with $5 free credit monthly:
+
+```bash
+# Install Railway CLI
+npm i -g @railway/cli
+
+# Login
+railway login
+
+# Initialize project
+railway init
+
+# Deploy
+railway up
+```
+
+### Environment Variables
+
+The app automatically uses `PORT` environment variable when deployed. No manual configuration needed!
+
+**Local development:**
+```bash
+# Uses config.json
+go run main.go
+```
+
+**Production (Render/Railway):**
+```bash
+# Uses PORT env variable
+PORT=8080 go run main.go
+```
+
+---
+
 **Made with ❤️ using Go, Gin, and WebSockets**
