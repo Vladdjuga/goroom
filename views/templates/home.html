@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Anonymous Chat - Talk to Strangers</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+<div class="hero-container">
+    <div class="hero-content">
+        <div class="hero-header">
+            <h1 class="hero-title">🎭 Anonymous Chat</h1>
+            <p class="hero-subtitle">Talk to strangers instantly. No registration required.</p>
+        </div>
+
+        <div class="hero-features">
+            <div class="feature">
+                <div class="feature-icon">🚀</div>
+                <h3>Instant Connect</h3>
+                <p>Get paired with a random stranger in seconds</p>
+            </div>
+            <div class="feature">
+                <div class="feature-icon">🔒</div>
+                <h3>100% Anonymous</h3>
+                <p>No sign-up, no data storage, pure privacy</p>
+            </div>
+            <div class="feature">
+                <div class="feature-icon">💬</div>
+                <h3>Real-time Chat</h3>
+                <p>Lightning-fast WebSocket messaging</p>
+            </div>
+            <div class="feature">
+                <div class="feature-icon">🔄</div>
+                <h3>Skip Anytime</h3>
+                <p>Don't like the conversation? Move to the next!</p>
+            </div>
+        </div>
+
+        <div class="hero-cta">
+            <a href="/chat" class="btn btn-primary btn-large">
+                Start Chatting Now
+                <span class="btn-arrow">→</span>
+            </a>
+        </div>
+
+        <div class="hero-stats">
+            <div class="stat">
+                <div class="stat-number" id="onlineUsers">0</div>
+                <div class="stat-label">Users Online</div>
+            </div>
+            <div class="stat">
+                <div class="stat-number" id="activeChats">0</div>
+                <div class="stat-label">Active Chats</div>
+            </div>
+        </div>
+
+        <div class="hero-footer">
+            <p class="disclaimer">
+                ⚠️ Be respectful. Keep it clean. Have fun!
+            </p>
+        </div>
+    </div>
+</div>
+
+<style>
+.hero-container {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    padding: 20px;
+}
+
+.hero-content {
+    max-width: 1000px;
+    width: 100%;
+    text-align: center;
+}
+
+.hero-header {
+    margin-bottom: 60px;
+    animation: fadeInUp 0.8s ease;
+}
+
+.hero-title {
+    font-size: 72px;
+    font-weight: 800;
+    color: white;
+    margin: 0 0 20px 0;
+    text-shadow: 0 4px 20px rgba(0,0,0,0.2);
+}
+
+.hero-subtitle {
+    font-size: 24px;
+    color: rgba(255,255,255,0.95);
+    margin: 0;
+    font-weight: 300;
+}
+
+.hero-features {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 30px;
+    margin-bottom: 60px;
+    animation: fadeInUp 0.8s ease 0.2s both;
+}
+
+.feature {
+    background: rgba(255,255,255,0.15);
+    backdrop-filter: blur(10px);
+    padding: 30px 20px;
+    border-radius: 20px;
+    transition: all 0.3s ease;
+    border: 1px solid rgba(255,255,255,0.2);
+}
+
+.feature:hover {
+    transform: translateY(-10px);
+    background: rgba(255,255,255,0.25);
+    box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+}
+
+.feature-icon {
+    font-size: 48px;
+    margin-bottom: 15px;
+}
+
+.feature h3 {
+    color: white;
+    font-size: 20px;
+    margin: 0 0 10px 0;
+    font-weight: 600;
+}
+
+.feature p {
+    color: rgba(255,255,255,0.9);
+    font-size: 14px;
+    margin: 0;
+    line-height: 1.6;
+}
+
+.hero-cta {
+    margin-bottom: 60px;
+    animation: fadeInUp 0.8s ease 0.4s both;
+}
+
+.btn-large {
+    padding: 20px 50px;
+    font-size: 20px;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    transition: all 0.3s ease;
+}
+
+.btn-large:hover {
+    transform: scale(1.05) translateY(-5px);
+    box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+}
+
+.btn-arrow {
+    font-size: 24px;
+    transition: transform 0.3s ease;
+}
+
+.btn-large:hover .btn-arrow {
+    transform: translateX(5px);
+}
+
+.hero-stats {
+    display: flex;
+    justify-content: center;
+    gap: 60px;
+    margin-bottom: 40px;
+    animation: fadeInUp 0.8s ease 0.6s both;
+}
+
+.stat {
+    text-align: center;
+}
+
+.stat-number {
+    font-size: 48px;
+    font-weight: 800;
+    color: white;
+    margin-bottom: 5px;
+    text-shadow: 0 2px 10px rgba(0,0,0,0.2);
+}
+
+.stat-label {
+    font-size: 14px;
+    color: rgba(255,255,255,0.8);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.hero-footer {
+    animation: fadeInUp 0.8s ease 0.8s both;
+}
+
+.disclaimer {
+    color: rgba(255,255,255,0.8);
+    font-size: 14px;
+    margin: 0;
+    padding: 15px;
+    background: rgba(0,0,0,0.2);
+    border-radius: 10px;
+    display: inline-block;
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@media (max-width: 768px) {
+    .hero-title {
+        font-size: 48px;
+    }
+    
+    .hero-subtitle {
+        font-size: 18px;
+    }
+    
+    .hero-features {
+        grid-template-columns: 1fr;
+    }
+    
+    .hero-stats {
+        flex-direction: column;
+        gap: 30px;
+    }
+}
+</style>
+</div>
+</body>
+</html>

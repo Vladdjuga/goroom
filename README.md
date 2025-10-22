@@ -1,6 +1,6 @@
 # 🎭 Anonymous Real-Time Chat (Omegle-style)
 
-Pure real-time anonymous chat service built with Go and WebSockets. No database, no registration - just instant anonymous conversations!
+Pure real-time anonymous chat service built with **Go, Gin, WebSockets, and MVC architecture**. No database, no registration - just instant anonymous conversations with a beautiful modern UI!
 
 ## ✨ Features
 
@@ -10,21 +10,41 @@ Pure real-time anonymous chat service built with Go and WebSockets. No database,
 - 🔄 **Skip Feature** - Don't like your partner? Skip to the next one!
 - 🔒 **Anonymous** - No registration, no data storage
 - ⚡ **Lightweight** - Minimal dependencies, fast startup
+- 🎨 **Modern UI** - Beautiful gradient design with smooth animations
+- 📱 **Responsive** - Works perfectly on desktop and mobile
+- 🏗️ **MVC Architecture** - Clean separation of concerns
+
+## 🎨 Screenshots
+
+**Home Page**: Beautiful landing page with features and call-to-action
+**Chat Room**: Modern chat interface with real-time messaging
 
 ## 🏗️ Architecture
 
 ```
-Client (WebSocket) 
-    ↓
-WebSocket Handler
-    ↓
-Router (Message Type Based)
-    ↓
-Handlers (FindMatch, SendMessage, NextStranger, StopChat)
-    ↓
-Hub + MatchingService (In-Memory)
-    ↓
-Paired Stranger (WebSocket)
+┌─────────────┐
+│   Browser   │
+└──────┬──────┘
+       │ HTTP/WebSocket
+┌──────▼──────────────────────┐
+│    Gin Web Server (MVC)     │
+├─────────────────────────────┤
+│ Controllers (HTTP Routes)   │
+│  ├─ HomeController          │
+│  └─ ChatController          │
+├─────────────────────────────┤
+│ WebSocket Handler           │
+│  └─ Router (Message Types)  │
+├─────────────────────────────┤
+│ Handlers                    │
+│  ├─ FindMatchHandler        │
+│  ├─ SendHandler             │
+│  ├─ NextStrangerHandler     │
+│  └─ StopChatHandler         │
+├─────────────────────────────┤
+│ Hub + MatchingService       │
+│  └─ In-Memory Pairs         │
+└─────────────────────────────┘
 ```
 
 ## 🚀 Quick Start
@@ -48,7 +68,26 @@ go run main.go
 
 Server will start on `http://localhost:8080`
 
-## 📡 WebSocket API
+### Open in Browser
+
+1. **Home Page**: Open `http://localhost:8080` 
+2. **Chat Page**: Click "Start Chatting Now" or go to `http://localhost:8080/chat`
+3. **Open Multiple Tabs**: Open the chat page in 2+ browser tabs to test matching
+
+## 🌐 Pages
+
+### Home Page (`/`)
+- Beautiful landing page with gradient design
+- Feature showcase
+- Call-to-action button
+- Real-time statistics (coming soon)
+
+### Chat Page (`/chat`)
+- Modern chat interface
+- Real-time status indicator
+- Message bubbles with timestamps
+- Control buttons (Start, Next, Stop)
+- Smooth animations and transitions
 
 Connect to: `ws://localhost:8080/ws`
 
@@ -168,10 +207,25 @@ Disconnects from current chat and removes you from matching queue.
 
 ```
 real-time-service/
-├── main.go                          # Entry point
+├── main.go                          # Entry point with routes
 ├── config.json                      # Configuration
-├── configuration/
-│   └── configuration.go             # Config loader
+├── README.md                        # Documentation
+│
+├── controllers/                     # MVC Controllers
+│   ├── home_controller.go           # Home page
+│   └── chat_controller.go           # Chat page
+│
+├── views/                           # MVC Views
+│   ├── templates/
+│   │   ├── layout.html              # Base layout
+│   │   ├── home.html                # Home page template
+│   │   └── chat.html                # Chat page template
+│   └── static/
+│       ├── css/
+│       │   └── style.css            # Modern gradient design
+│       └── js/
+│           └── chat.js              # WebSocket client
+│
 ├── handlers/
 │   ├── ws.go                        # WebSocket handler
 │   └── wsrouter/
@@ -181,19 +235,30 @@ real-time-service/
 │           ├── send_handler.go
 │           ├── next_stranger_handler.go
 │           └── stop_chat_handler.go
+│
 ├── hubs/
 │   └── main_hub.go                  # Connection hub
+│
 ├── services/
-│   └── matching_service.go          # Pair matching logic (in-memory)
+│   └── matching_service.go          # Pair matching (in-memory)
+│
 ├── models/
 │   ├── client.go
-│   ├── chat_pair.go                 # Pair model
+│   ├── chat_pair.go
 │   ├── message.go
 │   └── incoming_message.go
+│
 ├── middlewares/
-│   └── auth_middleware.go           # Simple session middleware
-└── interfaces/
-    └── container_interface.go       # DI interface
+│   └── auth_middleware.go           # Simple session
+│
+├── interfaces/
+│   └── container_interface.go       # DI interface
+│
+├── providers/
+│   └── main_providers.go            # DI container
+│
+└── configuration/
+    └── configuration.go             # Config loader
 ```
 
 ## 🎯 Key Components
@@ -246,14 +311,55 @@ go build -o chat-service
 
 ## 📝 TODO / Future Features
 
-- [ ] Add HTML/CSS/JS web interface
+- [x] MVC architecture with controllers
+- [x] Beautiful modern UI with gradients
+- [x] Server-side template rendering
+- [x] Responsive design for mobile
+- [ ] Real-time statistics on home page
 - [ ] Typing indicators
-- [ ] Connection statistics (users online, pairs active)
-- [ ] Interest tags for better matching
 - [ ] Rate limiting
 - [ ] Profanity filter
-- [ ] Message history (in-memory, per session)
-- [ ] Video/audio chat support
+- [ ] Interest tags for better matching
+- [ ] Dark mode toggle
+- [ ] Sound notifications
+- [ ] Video/audio chat support (WebRTC)
+- [ ] Chat logs download option
+
+## 🎨 Design Features
+
+- **Gradient Backgrounds**: Modern purple/pink gradients
+- **Glassmorphism**: Frosted glass effects on cards
+- **Smooth Animations**: Fade-ins, slide-ups, hover effects
+- **Message Bubbles**: Different styles for you/stranger
+- **Status Indicators**: Animated dots showing connection state
+- **Responsive Layout**: Mobile-first design
+- **Custom Scrollbars**: Styled for better aesthetics
+
+## 📡 WebSocket API
+
+Connect to: `ws://localhost:8080/ws`
+
+### Message Types
+
+#### 1. Find Match
+```json
+{"type": "findMatch"}
+```
+
+#### 2. Send Message
+```json
+{"type": "sendMessage", "text": "Hello!"}
+```
+
+#### 3. Next Stranger
+```json
+{"type": "nextStranger"}
+```
+
+#### 4. Stop Chat
+```json
+{"type": "stopChat"}
+```
 
 ## 🤝 Contributing
 
